@@ -7,10 +7,10 @@ from functools import wraps
 
 from flask import Flask, render_template, abort, jsonify, request, Response
 
-# import couchsurfing
+import couchsurfing
 
-import imp
-couchsurfing = imp.load_source('couchsurfing.name', '../couchsurfing-python/couchsurfing/__init__.py')
+#import imp
+#couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
 
 
 app = Flask(__name__)
