@@ -3,7 +3,6 @@
 	"use strict";
 
 	var options = {
-		// events_source: '/static/bootstrap-calendar/events.json.php',
 		events_source: '/get',
 		first_day: 1,
 		view: 'month',
@@ -14,19 +13,40 @@
 			if(!events) {
 				return;
 			}
-			var list = $('#eventlist');
-			list.html('');
+			var alist = $('#accepted');
+			alist.html('');
 
 			$.each(events, function(key, val) {
-				$(document.createElement('li'))
-					.html('<a href="' + val.url + '" target="_blank">' + val.title + '</a>')
-					.appendTo(list);
+				console.log(val.class);
+				if (val.class === "event-success") {
+					$(document.createElement('li'))
+						.html('<div style="max-height: 47px; padding-left: 5px;"><a class="pull-left event ' + val.class + '"</a><a href="' + val.url + '" target="_blank">' + val.title + '</a></div>')
+						.appendTo(alist);
+				}
 			});
+
+			var plist = $('#pending');
+			plist.html('');
+
+			$.each(events, function(key, val) {
+				if (val.class === "event-warning") {
+					$(document.createElement('li'))
+						.html('<div style="max-height: 47px; padding-left: 5px;"><a class="pull-left event ' + val.class + '"</a><a href="' + val.url + '" target="_blank">' + val.title + '</a></div>')
+						.appendTo(plist);
+				}
+			});
+
+			document.getElementById('loading').style.visibility = "hidden";
 		},
 		onAfterViewLoad: function(view) {
 			$('.page-header h3').text(this.getTitle());
 			$('.btn-group button').removeClass('active');
 			$('button[data-calendar-view="' + view + '"]').addClass('active');
+			$('#cal-view').animate({ opacity: 1.0 });
+		},
+		onBeforeEventsLoad: function(next) {
+			document.getElementById('loading').style.visibility = "visible";
+			next();
 		},
 		classes: {
 			months: {

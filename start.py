@@ -9,8 +9,8 @@ from flask import Flask, render_template, abort, jsonify, request, Response
 
 import couchsurfing
 
-#import imp
-#couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
+# import imp
+# couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
 
 
 app = Flask(__name__)
@@ -67,12 +67,14 @@ def get(username, password):
 	print(request.method)
 	# print(request.json)
 
-	# start = request.args.get("from")
-	# end = request.args.get("to")
+	start = int(request.args.get("from")[:-3])
+	end = int(request.args.get("to")[:-3])
+
+	print(start, end)
 
 	# get all couch requests
 	api = couchsurfing.Api(username, password)
-	requests = couchsurfing.Requests(api)
+	requests = couchsurfing.Requests(api, start, end)
 
 	data = {
 		"success": 1,

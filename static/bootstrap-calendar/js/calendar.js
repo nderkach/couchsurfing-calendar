@@ -95,6 +95,8 @@ if(!String.prototype.format) {
 		// those to affect you UI
 		// ------------------------------------------------------------
 		onAfterEventsLoad: function(events) {
+			// var el = this.getElementById('loading');
+			// el.style.visibility = "visible"
 			// Inside this function 'this' is the calendar instance
 		},
 		onBeforeEventsLoad: function(next) {
@@ -103,6 +105,8 @@ if(!String.prototype.format) {
 		},
 		onAfterViewLoad: function(view) {
 			// Inside this function 'this' is the calendar instance
+			// var el = this.getElementById('loading');
+			// el.style.visibility = "visible"
 		},
 		// -------------------------------------------------------------
 		// INTERNAL USE ONLY. DO NOT ASSIGN IT WILL BE OVERRIDDEN ANYWAY
@@ -118,7 +122,7 @@ if(!String.prototype.format) {
 	};
 
 	var defaults_extended = {
-		first_day: 1,
+		first_day: 2,
 		holidays: {
 			// January 1
 			'01-01': "New Year's Day",
@@ -565,7 +569,6 @@ if(!String.prototype.format) {
 
 	Calendar.prototype.view = function(view) {
 		if(view) this.options.view = view;
-
 		this._init_position();
 		this._loadEvents();
 		this._render();
@@ -701,6 +704,8 @@ if(!String.prototype.format) {
 	}
 
 	Calendar.prototype._loadEvents = function() {
+		// console.log("_loadEvents");
+		document.getElementById('loading').style.visibility = "visible";
 		var self = this;
 		var source = null;
 		if('events_source' in this.options && this.options.events_source !== '') {
@@ -742,6 +747,7 @@ if(!String.prototype.format) {
 							if(json.result) {
 								events = json.result;
 							}
+							// console.log("done")
 						});
 						return events;
 					};

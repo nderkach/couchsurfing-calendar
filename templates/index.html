@@ -21,8 +21,21 @@
 			background-position:  -21px -16px;
 		}
 	</style>
+	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/spin.js") }}"></script>
+	<script type="text/javascript">
+		window.onload = function ()
+		{ 
+			document.getElementById('loading').style.visibility = "hidden";
+			$('#cal-view').animate({ opacity: 1.0 });		
+		}
+	</script>
 </head>
 <body>
+ 	<div id ="loading" style="position:fixed;top:50%;left:50%;visibility:visible;opacity:0.2"></div>
+	<script>
+		new Spinner().spin(document.getElementById('loading'));
+	</script>
+
 <div class="container">
 	<div class="jumbotron">
 		<h1>Couchrequest Calendar</h1>
@@ -30,7 +43,7 @@
 		<p>All your couchrequests on a calendar. Realtime.</p>
 
 		<a class="btn btn-default btn-primary" href="https://github.com/nderkach/couchsurfing-calendar">Fork on GitHub</a>
-		<a href="https://twitter.com/serhioromano" class="btn btn-default btn-twitter" data-show-count="false" data-size="large">Follow @nderkach</a>
+		<a href="https://twitter.com/nderkach" class="btn btn-default btn-twitter" data-show-count="false" data-size="large">Follow @nderkach</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 		</script>
 	</div>
@@ -55,12 +68,12 @@
 		<!-- <small>To see example with events navigate to march 2013</small> -->
 	</div>
 
-	<div class="row">
+	<div class="row" id="cal-view">
 		<div class="col-md-9">
 			<div id="calendar"></div>
 		</div>
 		<div class="col-md-3">
-			<div class="row">
+<!-- 			<div class="row">
 				<select id="first_day" class="form-control">
 					<option value="" selected="selected">First day of week language-dependant</option>
 					<option value="2">First day of week is Sunday</option>
@@ -79,14 +92,17 @@
 					<option value="ru-RU">Russian</option>
 					<option value="sv-SE">Swedish</option>
 				</select>
-<!-- 				<label class="checkbox">
+ 				<label class="checkbox">
 					<input type="checkbox" value="#events-modal" id="events-in-modal"> Open events in modal window
-				</label> -->
-			</div>
+				</label>
+			</div> -->
 
 			<h4>Couchrequests</h4>
-			<!-- <small>This list is populated with events dynamically</small> -->
-			<ul id="eventlist" class="nav nav-list"></ul>
+			<h5>Accepted</h5>
+			<ul id="accepted" class="nav nav-list"></ul>
+			<h5>Pending</h5>
+			<ul id="pending" class="nav nav-list"></ul>
+
 		</div>
 	</div>
 
@@ -115,7 +131,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/underscore/underscore-min.js") }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/js/bootstrap.min.js") }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/jstimezonedetect/jstz.min.js") }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/fr-FR.js") }}"></script>
+<!--    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/fr-FR.js") }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/de-DE.js") }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/el-GR.js") }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/it-IT.js") }}"></script>
@@ -125,6 +141,7 @@
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/es-ES.js") }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/ru-RU.js") }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/sv-SE.js") }}"></script>
+-->
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/calendar.js") }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/app.js") }}"></script>
 
