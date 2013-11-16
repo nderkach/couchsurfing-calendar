@@ -9,8 +9,8 @@ from flask import Flask, render_template, abort, jsonify, request, Response
 
 import couchsurfing
 
-# import imp
-# couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
+#import imp
+#couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
 
 
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def check_auth(username, password):
     	api = couchsurfing.Api(username, password)
     except couchsurfing.AuthException:
     	return False
-    return True
+    return api
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -38,9 +38,12 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
+        if not auth:
             return authenticate()
-        return f(auth.username, auth.password, *args, **kwargs)
+        api = check_auth(auth.username, auth.password)
+        if not api:
+            return authenticate()
+        return f(api, *args, **kwargs)
     return decorated
 
 @app.route('/',  methods=['GET', 'POST'])
@@ -63,17 +66,10 @@ def feed():
 
 @app.route('/get', methods=['POST', 'GET'])
 @requires_auth
-def get(username, password):
-	print(request.method)
-	# print(request.json)
-
+def get(api):
 	start = int(request.args.get("from")[:-3])
 	end = int(request.args.get("to")[:-3])
 
-	print(start, end)
-
-	# get all couch requests
-	api = couchsurfing.Api(username, password)
 	requests = couchsurfing.Requests(api, start, end)
 
 	data = {
