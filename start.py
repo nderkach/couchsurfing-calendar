@@ -9,9 +9,8 @@ from flask import Flask, render_template, abort, jsonify, request, Response
 
 import couchsurfing
 
-#import imp
-#couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
-
+# import imp
+# couchsurfing = imp.load_source('couchsurfing', '../couchsurfing-python/couchsurfing/__init__.py')
 
 app = Flask(__name__)
 
@@ -50,39 +49,39 @@ def requires_auth(f):
 def index():
 	return render_template("index.html")
 
-@app.route(CALENDAR_FILE, methods=['POST', 'GET'])
-def feed():
-	print(request.method)
-	print(request.json)
-	with open(CALENDAR_FILE[1:], 'r') as f:
-		data = json.load(f)
+# @app.route(CALENDAR_FILE, methods=['POST', 'GET'])
+# def feed():
+# 	print(request.method)
+# 	print(request.json)
+# 	with open(CALENDAR_FILE[1:], 'r') as f:
+# 		data = json.load(f)
 
-	start = request.args.get("from")
-	end = request.args.get("to")
+# 	start = request.args.get("from")
+# 	end = request.args.get("to")
 
-	# data["result"] = [event for event in data["result"] if (start < int(event["start"]) < int(event["end"]) < end)] 
+# 	# data["result"] = [event for event in data["result"] if (start < int(event["start"]) < int(event["end"]) < end)] 
 
-	return jsonify(**data)
+# 	return jsonify(**data)
 
 @app.route('/get', methods=['POST', 'GET'])
 @requires_auth
 def get(api):
-	start = int(request.args.get("from")[:-3])
-	end = int(request.args.get("to")[:-3])
+    start = int(request.args.get("from")[:-3])
+    end = int(request.args.get("to")[:-3])
 
-	requests = couchsurfing.Requests(api, start, end)
+    requests = couchsurfing.Requests(api, start, end)
 
-	data = {
-		"success": 1,
-		"result": requests.accepted + requests.new
-	}
+    all_requests = requests.accepted + requests.new
+    for req in all_requests:
+        req["start"] *= 1000
+        req["end"] *= 1000
 
-	# data["result"] = [event for event in data["result"] if (start < float(event["start"]) < float(event["end"]) < end)] 
+    data = {
+    	"success": 1,
+    	"result": all_requests
+    }
 
-	# print("DATA")
-	# print(data)
-
-	return jsonify(**data)
+    return jsonify(**data)
 
 if __name__ == '__main__':
     app.run(debug=True)
