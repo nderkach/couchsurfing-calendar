@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+import os
+
+from pymongo import MongoClient
+from requests.utils import cookiejar_from_dict
+
+import couchsurfing
+
+MONGO_URI = os.getenv("MONGOHQ_URI", "mongodb://root:qwerty@linus.mongohq.com:10082/app19566517")
+
+db = MongoClient(MONGO_URI)['app19566517']
+
+# find = db.data.find_one({"uid": "4732279"})
+
+for doc in db.data.find({"cookie":{"$exists":True}}):
+	print(doc)
+	print(type(doc))
+	api = couchsurfing.Api(uid=doc["uid"], cookies=cookiejar_from_dict(doc["cookie"]))
+	requests = couchsurfing.Requests(api)
+	all_requests = requests.accepted + requests.new
+	for req in all_requests:
+	    req["start"] *= 1000
+	    req["end"] *= 1000
+
+	data = {"uid": api.uid, "requests": all_requests, "cookie": doc["cookie"]}
+	db.data.update({"uid": api.uid}, data, upsert=True)
+
+	print(all_requests)
+
+
