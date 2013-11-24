@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="description" content="Full view calendar to display couchsurfing.org couch requests.">
+	<meta name="keywords" content="Bootstrap,Calendar,HTML,CSS,JavaScript,couchsurfing,API">
+	<meta name="author" content="Nikolay Derkach">
+	<meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/css/bootstrap.min.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/css/bootstrap-theme.min.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/css/calendar.css") }}">
+
+    <style>
+    .cal-month-box .cal-day-today span[data-cal-date],
+	span.pull-right {
+		font-size: 40px;
+	}
+    </style>
+</head>
+<body>
+	<!-- <div class="page-header"></div> -->
+
+	<!-- <div class="row" id="cal-view"> -->
+		<div class="col-md-9">
+			<div id="calendar"></div>
+		</div>
+	<!-- </div> -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/jquery/jquery.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/underscore/underscore-min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/js/bootstrap.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/jstimezonedetect/jstz.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/calendar.js") }}"></script>
+
+	<script type="text/javascript">
+	  uid = '{{ uid }}';
+	</script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/app_user.js") }}"></script>
+
+</body>
+</html>

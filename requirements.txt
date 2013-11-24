@@ -4,5 +4,7 @@ MarkupSafe==0.18
 Werkzeug==0.9.4
 gunicorn==18.0
 itsdangerous==0.23
+pymongo==2.6.3
 requests==2.0.1
-git+git://github.com/nderkach/couchsurfing-python.git
+requests-futures==0.9.4
+#git+git://github.com/nderkach/couchsurfing-python.git

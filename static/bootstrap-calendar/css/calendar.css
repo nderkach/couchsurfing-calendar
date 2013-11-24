@@ -409,3 +409,9 @@ a.cal-event-week {
 .badge-important {
   background-color: #b94a48;
 }
+
+/* custom */
+
+.day-highlight-accepted {
+  background-color: #FFC2C2;
+}

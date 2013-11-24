@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/css/bootstrap.min.css") }}">
     <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/css/bootstrap-theme.min.css") }}">
     <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/css/calendar.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/css/bootstrap-switch.css") }}">
+
 
 	<style type="text/css">
 		.btn-twitter {
@@ -27,6 +29,24 @@
 		{ 
 			document.getElementById('loading').style.visibility = "hidden";
 			$('#cal-view').animate({ opacity: 1.0 });		
+	        var cookie = function() {
+	        	var result = null;
+		        $.ajax("/check",
+		        {
+		        	statusCode: {
+		         		204: function() {
+		            		result = false;
+		        		},
+		 	         	200: function() {
+		            		result = true;
+		        		}
+		        	},
+		        	async:false
+		        });
+		        return result;
+		    }();
+			$('#refresh').bootstrapSwitch('setState', cookie);
+
 		}
 	</script>
 </head>
@@ -51,6 +71,19 @@
 	<div class="page-header">
 
 		<div class="pull-right form-inline">
+
+			<a class="make-switch" id="refresh" data-toogle="tooltip"
+			   title="Trigger automatic calendar refresh every day"
+			   data-text-label="<i class='glyphicon glyphicon-refresh'></i>">
+    			<input type="checkbox">
+			</a>
+
+			<button class="btn btn-default" id="snapshot"
+					data-toogle="tooltip"
+					title="Store a snapshot of your calendar">
+				<span class="glyphicon glyphicon-floppy-save"></span> Create snapshot
+			</button>
+
 			<div class="btn-group">
 				<button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
 				<button class="btn" data-calendar-nav="today">Today</button>
@@ -65,7 +98,6 @@
 		</div>
 
 		<h3></h3>
-		<!-- <small>To see example with events navigate to march 2013</small> -->
 	</div>
 
 	<div class="row" id="cal-view">
@@ -143,6 +175,7 @@
 	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/language/sv-SE.js") }}"></script>
 -->
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/calendar.js") }}"></script>
+
     <script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/js/app.js") }}"></script>
 
 	<script type="text/javascript">
@@ -184,6 +217,38 @@
 		  });
 		</script>
 		<!-- AddThis Smart Layers END -->
+		<script type="text/javascript" src="http://fgnass.github.io/spin.js/dist/spin.min.js"></script>
+		<script src="{{ url_for('static', filename="bootstrap-calendar/js/bootstrap-switch.js") }}"></script>
+		<script type="text/javascript">
+			$("#snapshot").click( function() {
+				// that = this
+			 //    that.disabled = true;
+    //     		var spinner = new Spinner().spin(this);
+				// $.get("/save", function(data,status) {
+				// 	alert("Your calendar is available at " + data);
+				// 	spinner.stop();
+				// 	console.log(this)
+				// 	that.disabled = false;
+				// });
+				$("#snapshot").prop('disabled', true);
+				$("#alert").remove();
+		        $.ajax("/save",
+		        	{}).done(function(data, status) {
+		        		$("#snapshot").prop('disabled', false);
+		        		$('<div class="alert alert-success alert-dismissable" id="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><a href="' + data + '" target="_blank"> Your calendar is available here </a></div>').insertBefore("#cal-view").hide().slideDown("slow");
+		        });
+			});
+
+			$('#refresh').on('switch-change', function (e, data) {
+				$("#refresh").bootstrapSwitch('setActive', false);
+				$("#alert").remove();
+		        $.ajax("/save?cookie="+data.value,
+		        	{}).done(function(data, status) {
+		        		$("#refresh").bootstrapSwitch('setActive', true);
+		        		$('<div class="alert alert-success alert-dismissable" id="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><a href="' + data + '" target="_blank"> Your calendar is available here </a></div>').insertBefore("#cal-view").hide().slideDown("slow");
+		        });
+			});
+		</script>
     </footer>
 </body>
 </html>

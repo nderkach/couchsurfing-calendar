@@ -513,6 +513,7 @@ if(!String.prototype.format) {
 		t.start = parseInt(curdate.getTime());
 		t.end = parseInt(t.start + 86400000);
 		t.events = this.getEventsBetween(t.start, t.end);
+
 		return this.options.templates['month-day'](t);
 	}
 
@@ -704,8 +705,6 @@ if(!String.prototype.format) {
 	}
 
 	Calendar.prototype._loadEvents = function() {
-		// console.log("_loadEvents");
-		document.getElementById('loading').style.visibility = "visible";
 		var self = this;
 		var source = null;
 		if('events_source' in this.options && this.options.events_source !== '') {

@@ -3,7 +3,7 @@
 	"use strict";
 
 	var options = {
-		events_source: '/get',
+		events_source: '/get_user?uid=' + uid,
 		first_day: 1,
 		view: 'month',
 		tmpl_path: '/static/bootstrap-calendar/tmpls/',
@@ -34,17 +34,19 @@
 						.appendTo(plist);
 				}
 			});
-
-			document.getElementById('loading').style.visibility = "hidden";
 		},
 		onAfterViewLoad: function(view) {
 			$('.page-header h3').text(this.getTitle());
 			$('.btn-group button').removeClass('active');
 			$('button[data-calendar-view="' + view + '"]').addClass('active');
-			$('#cal-view').animate({ opacity: 1.0 });
+
+			$(".cal-cell1.cal-cell").each(function(){ 
+				if ( $(this).find('.events-list').length > 0 ) {
+					$(this).addClass("day-highlight-accepted");
+				}
+			});
 		},
 		onBeforeEventsLoad: function(next) {
-			document.getElementById('loading').style.visibility = "visible";
 			next();
 		},
 		classes: {
