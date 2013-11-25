@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/css/calendar.css") }}">
     <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/css/bootstrap-switch.css") }}">
 
-
 	<style type="text/css">
 		.btn-twitter {
 			padding-left: 30px;
@@ -46,7 +45,6 @@
 		        return result;
 		    }();
 			$('#refresh').bootstrapSwitch('setState', cookie);
-
 		}
 	</script>
 </head>
@@ -61,17 +59,23 @@
 		<h1>Couchrequest Calendar</h1>
 
 		<p>All your couchrequests on a calendar. Realtime.</p>
+		<small>
+		<p>New features: <p>
+		<ul>
+			<li> <span class="glyphicon glyphicon-refresh"></span> Calendar auto-update: embed a calendar into your profile, so that surfers know when your couch is available </li>
+			<li> <span class="glyphicon glyphicon-floppy-save"></span> Create a calendar snapshot: same as above but with a manual refresh</li>
+		</ul>
+		</small>
 
 		<a class="btn btn-default btn-primary" href="https://github.com/nderkach/couchsurfing-calendar">Fork on GitHub</a>
 		<a href="https://twitter.com/nderkach" class="btn btn-default btn-twitter" data-show-count="false" data-size="large">Follow @nderkach</a>
+		<a target="_blank" href="http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api/" class="btn btn-default" role="button">How it works</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 		</script>
 	</div>
 
 	<div class="page-header">
-
 		<div class="pull-right form-inline">
-
 			<a class="make-switch" id="refresh" data-toogle="tooltip"
 			   title="Trigger automatic calendar refresh every day"
 			   data-text-label="<i class='glyphicon glyphicon-refresh'></i>">
@@ -191,9 +195,9 @@
     <footer class="bs-footer" role="contentinfo">
     	<div class="container">
 	        <p>Designed and built by <a href="http://twitter.com/nderkach" target="_blank">@nderkach</a>.</p>
-	        <p>Stuff used: <a href="http://getbootstrap.com" target="_blank">Bootstrap3</a>, <a href="https://github.com/Serhioromano/bootstrap-calendar" target="_blank">Bootstrap Calendar</a>, <a href="https://github.com/nderkach/couchsurfing-python" target="_blank">Couchsurfing Python API</a> and <a href="http://http://flask.pocoo.org/" target="_blank">Flask</a> and multiple other Python 3 libraries.</p>
-	        <p>No data is stored on our servers, everything is queried in real time.</p>
-	        <p>This project is not commercial and its sole purpose is to help people manage their couchreqests.</p>
+	        <p>Stuff used: <a href="http://getbootstrap.com" target="_blank">Bootstrap3</a>, <a href="https://github.com/Serhioromano/bootstrap-calendar" target="_blank">Bootstrap Calendar</a>, <a href="https://github.com/nderkach/couchsurfing-python" target="_blank">Couchsurfing Python API</a>, <a href="http://www.mongodb.org/" target="_blank">MongoDB</a> and <a href="http://http://flask.pocoo.org/" target="_blank">Flask</a> and multiple other Python 3 libraries, deployed on <a href="http://heroku.com" target="_blank">Heroku</a></p>
+	        <p>No data is stored on our servers, everything is queried in real time, unless you opt to create a calendar snapshot or enable calendar auto-refresh. If you choose on of those options, we'll store the dates of your couchrequets, your user id, as well as your session cookie for the latter option.</p>
+	        <p>This project is not commercial and its sole purpose is to help people manage their couchrequests.</p>
     	</div>
     	<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

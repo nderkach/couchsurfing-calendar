@@ -5,9 +5,11 @@ import os
 from pymongo import MongoClient
 from requests.utils import cookiejar_from_dict
 
-import couchsurfing
+# TODO: remove couchsurfing.py when available in pip
+import imp
+couchsurfing = imp.load_source('couchsurfing', 'couchsurfing.py')
 
-MONGO_URI = os.getenv("MONGOHQ_URI", "mongodb://root:qwerty@linus.mongohq.com:10082/app19566517")
+MONGO_URI = os.getenv("MONGOHQ_URL")
 
 db = MongoClient(MONGO_URI)['app19566517']
 

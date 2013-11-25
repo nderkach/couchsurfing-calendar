@@ -52,13 +52,14 @@ def requires_auth(f):
         return f(api, *args, **kwargs)
     return decorated
 
-@app.route('/',  methods=['GET', 'POST'])
+@app.route('/')
 def index():
 	return render_template("index.html")
 
-@app.route('/get', methods=['POST', 'GET'])
+@app.route('/get')
 @requires_auth
 def get(api):
+    """ Query user's data from API """
     start = int(request.args.get("from")[:-3])
     end = int(request.args.get("to")[:-3])
 
@@ -79,9 +80,8 @@ def get(api):
 @app.route('/save')
 @requires_auth
 def save(api):
-    print(api.uid)
+    """ Save calendar data to db """
     requests = couchsurfing.Requests(api)
-    print(requests)
 
     all_requests = requests.accepted
     for req in all_requests:
@@ -91,16 +91,19 @@ def save(api):
     print(request.args)
 
     data = {"uid": api.uid, "requests": all_requests}
+    # check if we want to store a cookie as well
     if request.args.get("cookie") == "true":
             data["cookie"] = dict_from_cookiejar(api.cookies)
 
     db.data.update({"uid": api.uid}, data, upsert=True)
 
+    # return link to user's calendar
     return get_home() + api.uid
 
 @app.route('/check')
 @requires_auth
 def check_cookie(api):
+    """ Check if a cookie exists for a given uid """
     find = db.data.find_one({"uid": api.uid})
     response = make_response()
 
@@ -110,11 +113,11 @@ def check_cookie(api):
         response.status_code = 204
 
     response.data = response.status
-    print(response)
     return response
 
 @app.route('/get_user')
 def get_user():
+    """ Get user's calendar """
     username = request.args.get("uid")
 
     find = db.data.find_one({"uid": username})
@@ -127,6 +130,7 @@ def get_user():
 
 @app.route('/<path:uid>')
 def index_user(uid):
+    """ User's calendar view """
     return render_template("index_user.html", uid=uid)
 
 if __name__ == '__main__':
