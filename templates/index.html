@@ -235,7 +235,7 @@
 		        $.ajax("/save",
 		        	{}).done(function(data, status) {
 		        		$("#snapshot").prop('disabled', false);
-		        		$('<div class="alert alert-success alert-dismissable" id="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><a href="' + data + '" target="_blank"> Your calendar is available here </a></div>').insertBefore("#cal-view").hide().slideDown("slow");
+		        		$('<div class="alert alert-success alert-dismissable" id="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><a href="' + data + '" class="alert-link" target="_blank"> Your calendar is available here </a> <p> Insert the following code into your couchsurfing.org profile and show everyone your couch availability: </p> <pre>&lt;a href="' + data + '"&gt;&lt;img src="http://immediatenet.com/t/fs?Size=800x600&URL=' + data + '"/&gt;&lt;/a&gt;</pre></div>').insertBefore("#cal-view").hide().slideDown("slow");
 		        });
 			});
 
@@ -245,7 +245,7 @@
 		        $.ajax("/save?cookie="+data.value,
 		        	{}).done(function(data, status) {
 		        		$("#refresh").bootstrapSwitch('setActive', true);
-		        		$('<div class="alert alert-success alert-dismissable" id="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><a href="' + data + '" target="_blank"> Your calendar is available here </a></div>').insertBefore("#cal-view").hide().slideDown("slow");
+		        		$('<div class="alert alert-success alert-dismissable" id="alert"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><a href="' + data + '" class="alert-link" target="_blank"> Your calendar is available here </a> <p> Insert the following code into your couchsurfing.org profile and show everyone your couch availability: </p> <pre>&lt;a href="' + data + '"&gt;&lt;img src="http://immediatenet.com/t/fs?Size=800x600&URL=' + data + '"/&gt;&lt;/a&gt;</pre></div>').insertBefore("#cal-view").hide().slideDown("slow");
 		        });
 			});
 		</script>
