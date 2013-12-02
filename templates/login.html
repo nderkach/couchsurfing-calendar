@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Couchrequest Calendar</title>
+
+	<meta name="description" content="Full view calendar to display couchsurfing.org couch requests.">
+	<meta name="keywords" content="Bootstrap,Calendar,HTML,CSS,JavaScript,couchsurfing,API">
+	<meta name="author" content="Nikolay Derkach">
+	<meta charset="UTF-8">
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/css/bootstrap.min.css") }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/components/bootstrap3/css/bootstrap-theme.min.css") }}">
+ 	<link rel="stylesheet" href="{{ url_for('static', filename="bootstrap-calendar/css/login.css") }}">
+
+	<script type="text/javascript" src="{{ url_for('static', filename="bootstrap-calendar/components/jquery/jquery.min.js") }}"></script>
+ 	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			$('.form-signin').submit(function()
+			{
+
+				var username = $('#login').val();
+				var password = $('#password').val();
+
+				console.log("login: " + username);
+				console.log("password: " + password);
+
+				$.ajax(
+				{
+				  'username' : username,
+				  'password' : password,
+				  'url'      : '/login',
+				  'type'     : 'GET',
+				  'success'  : function(){ window.location = '/'; },
+				  'error'    : function(){
+					  $('<div class="alert alert-danger" id="alert">Wrong login/password. Try again.</div>').insertAfter("#password").hide().slideDown("slow");
+				  },
+				}
+				);
+
+				return false;
+			});
+		});
+	</script>
+</head>
+
+<body>
+
+<div class="wrap">
+
+	<div id="fullscreen_bg" class="fullscreen_bg"> </div>
+
+	<div class="container">
+
+		<form class="form-signin">
+			<h1 class="form-signin-heading text-muted">Couchrequest Calendar</h1>
+			<h5 class="form-signin-heading">Sign in with your couchsurfing.org credentials</h5>
+			<input type="text" id="login" class="form-control" placeholder="Login or Email" required autofocus="">
+			<input type="password" id="password" class="form-control" placeholder="Password" required>
+			<button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">
+				Sign In
+			</button>
+		</form>
+
+	</div>
+</div>
+
+</body>

@@ -47,14 +47,27 @@ def requires_auth(f):
         if not auth:
             return authenticate()
         api = check_auth(auth.username, auth.password)
-        if not api:
-            return authenticate()
         return f(api, *args, **kwargs)
     return decorated
 
 @app.route('/')
 def index():
-	return render_template("index.html")
+    if request.authorization:
+        return render_template("index.html")
+    else:
+        return render_template("login.html")
+
+@app.route('/login')
+@requires_auth
+def login(api):
+    response = make_response()
+    if api:
+        response.status_code = 200
+    else:
+        response.status_code = 401
+
+    response.data = response.status
+    return response
 
 @app.route('/get')
 @requires_auth
@@ -87,8 +100,6 @@ def save(api):
     for req in all_requests:
         req["start"] *= 1000
         req["end"] *= 1000
-
-    print(request.args)
 
     data = {"uid": api.uid, "requests": all_requests}
     # check if we want to store a cookie as well
