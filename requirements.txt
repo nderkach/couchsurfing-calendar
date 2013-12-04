@@ -7,4 +7,4 @@ itsdangerous==0.23
 pymongo==2.6.3
 requests==2.0.1
 requests-futures==0.9.4
-couchsurfing==0.1.1
+couchsurfing==0.2.0

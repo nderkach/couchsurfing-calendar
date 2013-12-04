@@ -34,6 +34,7 @@
 				  'type'     : 'GET',
 				  'success'  : function(){ window.location = '/'; },
 				  'error'    : function(){
+				  	  $('#alert').remove();
 					  $('<div class="alert alert-danger" id="alert">Wrong login/password. Try again.</div>').insertAfter("#password").hide().slideDown("slow");
 				  },
 				}
@@ -55,7 +56,7 @@
 
 		<form class="form-signin">
 			<h1 class="form-signin-heading text-muted">Couchrequest Calendar</h1>
-			<h5 class="form-signin-heading">Sign in with your couchsurfing.org credentials</h5>
+			<h5 class="form-signin-heading">Sign in with your couchsurfing.com credentials</h5>
 			<input type="text" id="login" class="form-control" placeholder="Login or Email" required autofocus="">
 			<input type="password" id="password" class="form-control" placeholder="Password" required>
 			<button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">
