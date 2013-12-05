@@ -114,6 +114,7 @@ def save(api):
 def check_cookie(api):
     """ Check if a cookie exists for a given uid """
     find = db.data.find_one({"uid": api.uid})
+
     response = make_response()
 
     if find and "cookie" in find:
@@ -127,9 +128,10 @@ def check_cookie(api):
 @app.route('/get_user')
 def get_user():
     """ Get user's calendar """
-    username = request.args.get("uid")
+    uid = request.args.get("uid")
 
-    find = db.data.find_one({"uid": username})
+    find = db.data.find_one({"uid": int(uid)})
+
     data = {
         "success": 1,
         "result": find['requests']
