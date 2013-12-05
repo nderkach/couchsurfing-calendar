@@ -7,9 +7,11 @@ import os
 from functools import wraps
 
 from flask import Flask, render_template, jsonify, \
-                  request, Response, make_response, abort
+                  request, Response, make_response, abort, send_file
 from pymongo import MongoClient
 from requests.utils import dict_from_cookiejar
+import requests
+from io import BytesIO
 
 import couchsurfing
 
@@ -142,6 +144,25 @@ def get_user():
 @app.route('/<path:uid>')
 def index_user(uid):
     """ User's calendar view """
+
+    if "img" in request.args:
+        url = "http://immediatenet.com/t/fs?Size=800x600&URL="\
+              "http://www.couchrequests.com/{0}?{1}".format(
+                uid,
+                time.strftime("%Y%m%d"))
+
+        """ this is a nice little hack here
+        immediatenet.com caches snapshots of the same url,
+        officially up to 8 days, but according to my observations it's more
+        than that. To work around this issue I add a postfix modifier with
+        a date to my url. This way when the snapshot will be regenerated
+        every day just once.
+        """
+
+        r = requests.get(url)
+
+        return send_file(BytesIO(r.content))
+
     return render_template("index_user.html", uid=uid)
 
 if __name__ == '__main__':
