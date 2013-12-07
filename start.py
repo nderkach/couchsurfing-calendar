@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from datetime import date
+from datetime import datetime
 import time
 import sys
 import os
@@ -94,7 +94,11 @@ def get(api):
 @requires_auth
 def save(api):
     """ Save calendar data to db """
-    requests = couchsurfing.CouchRequests(api)
+
+    now = datetime.now()
+    start_month = int((datetime(now.year, now.month, 1) - datetime(1970, 1, 1)).total_seconds())
+
+    requests = couchsurfing.CouchRequests(api, start_month)
 
     all_requests = requests.accepted
     for req in all_requests:
